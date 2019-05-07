@@ -7,6 +7,13 @@
 # Requires: Kubectl setup to k8s cluster
 
 # TODO - Check kubectl get nodes
+TASK=$(kubectl get nodes | grep Ready)
+if [ "$TASK" == "" ]
+then
+    echo "Fail - WordPressExample.sh: Connect to kubectl"
+    echo
+    exit
+fi
 
 case "$1" in
 -u | [uU][pP])
@@ -57,13 +64,13 @@ case "$1" in
         then
             printf "."
         else
+            echo
             echo "WordPressExample.sh - MySQL Storage Bind Created"
             echo " $ kubectl get pvc"
             TASK=$(kubectl get pvc | grep NAME)
             echo " $TASK"
             TASK=$(kubectl get pvc | grep mysql-pv)
             echo " $TASK"
-            echo
             break
         fi
     	sleep 10
@@ -79,13 +86,13 @@ case "$1" in
         then
             printf "."
         else
+            echo
             echo "WordPressExample.sh - WordPress Storage Bind Created"
             echo " $ kubectl get pvc"
             TASK=$(kubectl get pvc | grep NAME)
             echo " $TASK"
             TASK=$(kubectl get pvc | grep wp-pv)
             echo " $TASK"
-            echo
             break
         fi
     	sleep 10
@@ -130,6 +137,7 @@ case "$1" in
       fi
     	sleep 5
 	done
+    
     NAME1=$(kubectl get services | grep wordpress | sed -n 1p | awk '{print $4}')
             # $ kubectl get services
             # NAME              TYPE           CLUSTER-IP    EXTERNAL-IP                                                               PORT(S)        AGE
@@ -137,9 +145,26 @@ case "$1" in
             # wordpress         LoadBalancer   10.0.41.182   a7c5e8cc1702a11e9a26b0a448945894-1706311152.us-west-2.elb.amazonaws.com   80:30203/TCP   9m57s
             # wordpress-mysql   ClusterIP      None          <none>                                                                    3306/TCP       9m57s
     echo
-    echo "WordPress is up and accessible at: http://$NAME1"
-    echo "            ** Login and setup username and password or remove application immediately **"
-    echo
+    printf "Checking Site: ["
+    while true
+	do
+    	TASK=$(curl -Is http://$NAME1 | head -1)
+      if [[ "$TASK" != *Found* ]]
+      then
+         printf "."
+      else
+        printf " ]"
+        echo
+        echo "WordPressExample.sh - WordPress is up"
+
+        echo
+        echo "WordPress is up and accessible at: http://$NAME1"
+        echo "            ** Login and setup username and password or remove application immediately **"
+        echo
+        break
+      fi
+    	sleep 10
+	done
 	;;
 -d | [dD][oO][wW][nN])
 	echo "WordPressExample.sh - Down"
