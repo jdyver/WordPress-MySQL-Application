@@ -136,8 +136,9 @@ case "$1" in
             # kubernetes        ClusterIP      10.0.0.1      <none>                                                                    443/TCP        136m
             # wordpress         LoadBalancer   10.0.41.182   a7c5e8cc1702a11e9a26b0a448945894-1706311152.us-west-2.elb.amazonaws.com   80:30203/TCP   9m57s
             # wordpress-mysql   ClusterIP      None          <none>                                                                    3306/TCP       9m57s
-    echo "WordPress is up and accessible at: http://$NAME1
-    ** Login and setup username and password or remove application immediately **"
+    echo
+    echo "WordPress is up and accessible at: http://$NAME1"
+    echo "            ** Login and setup username and password or remove application immediately **"
     echo
 	;;
 -d | [dD][oO][wW][nN])
