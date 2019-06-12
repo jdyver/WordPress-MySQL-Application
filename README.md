@@ -1,8 +1,9 @@
 # WordPress-MySQL-Application
-Deploying WordPress and MySQL with Persistent Volumes
+Deploying WordPress and MySQL with Persistent Volumes to Kubernetes
 ### https://github.com/jdyver/WordPress-MySQL-Application.git   
+Automated for Konvoy from: https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
 
-### WordPressExample.sh up | down
+### WordPressExample.sh -u | up | -d | down
 - Up offline is default (using local files)
 - Down
 
@@ -10,7 +11,7 @@ Deploying WordPress and MySQL with Persistent Volumes
 Kubectl is setup to k8s cluster
 
 ### Probably needs to be done:
-- TODO: 
+- TODO: Show step outputs especially storage
 
 ### WordPressExample.sh up
 ```
